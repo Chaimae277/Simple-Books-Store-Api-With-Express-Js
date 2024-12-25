@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Joi = require('joi');
-const {Author} = require("../Models/Author");
+const {Author, validateCreateAuthor, validateUpdateAuthor} = require("../Models/Author");
 
 
 /**
@@ -146,31 +145,5 @@ router.delete('/:id', async (req, res) => {
     });
   }
 });
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Validate Create Author With JOI
-function validateCreateAuthor(obj) {
-  const schema = Joi.object({
-    firstName: Joi.string().trim().min(3).max(200).required(),
-    lastName: Joi.string().trim().min(3).max(200).required(),
-    nationality: Joi.string().trim().min(3).max(500).required(),
-    image: Joi.string(),
-  });
-
-  return schema.validate(obj);
-}
-
-// Validate Update Author With JOI
-function validateUpdateAuthor(obj) {
-  const schema = Joi.object({
-    firstName: Joi.string().trim().min(3).max(200),
-    lastName: Joi.string().trim().min(3).max(200),
-    nationality: Joi.string().trim().min(3).max(500),
-    image: Joi.string(),
-  });
-
-  return schema.validate(obj);
-}
 
 module.exports = router;

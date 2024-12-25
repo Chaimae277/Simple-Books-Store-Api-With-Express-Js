@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Joi = require('joi');
 
 const AuthorSchema = new mongoose.Schema({
   firstName : {
@@ -31,6 +32,33 @@ const AuthorSchema = new mongoose.Schema({
 });
 
 const Author = mongoose.model("Author", AuthorSchema);
+
+// Validate Create Author With JOI
+function validateCreateAuthor(obj) {
+  const schema = Joi.object({
+    firstName: Joi.string().trim().min(3).max(200).required(),
+    lastName: Joi.string().trim().min(3).max(200).required(),
+    nationality: Joi.string().trim().min(2).max(100).required(),
+    image: Joi.string(),
+  });
+
+  return schema.validate(obj);
+}
+
+// Validate Update Author With JOI
+function validateUpdateAuthor(obj) {
+  const schema = Joi.object({
+    firstName: Joi.string().trim().min(3).max(200),
+    lastName: Joi.string().trim().min(3).max(200),
+    nationality: Joi.string().trim().min(2).max(100),
+    image: Joi.string(),
+  });
+
+  return schema.validate(obj);
+}
+
 module.exports = {
-  Author
+  Author,
+  validateCreateAuthor,
+  validateUpdateAuthor
 }
