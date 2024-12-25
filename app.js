@@ -6,6 +6,13 @@ const PORT = 5000;
 app.use(express.json());
 const booksPath = require('./routes/books');
 const authorsPath = require('./routes/authors');
+const mongoose = require('mongoose');
+
+// Connection To DataBase
+mongoose
+  .connect("mongodb://localhost/bookStoreDB")
+  .then(() => console.log("Connected To MongoDB..."))
+  .catch(((error) => console.log("Connection Failed To MongoDB!", error)));
 
 
 app.use('/api/books', booksPath);
